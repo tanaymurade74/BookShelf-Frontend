@@ -1,0 +1,100 @@
+import { Link } from "react-router-dom";
+import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
+
+const HomePage = () => {
+  const CategoryCard = ({ title, image, link }) => {
+    return (
+      <div className="col-md-2">
+        <Link to={link}>
+          <div className="card">
+            <div className="card-img">
+              <img
+                className="img-fluid"
+                style={{
+                  height: "200px",
+                  width: "170px",
+                  objectFit: "cover",
+                  transform: "transform 0.3s",
+                }}
+                onMouseEnter={(e) => (e.target.style.transform = "scale(1.2)")}
+                 onMouseMove={(e) => (e.target.style.transform = "scale(1.2)")}
+                onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
+                src={image}
+              />
+            </div>
+            <div
+              className="position-absolute w-100 d-flex align-items-end justify-content-center"
+              style={{
+                bottom: 0,
+                left: 0,
+                height: "50%",
+                background:
+                  "linear-gradient(to top, rgba(0,0,0,0.8), transparent)",
+              }}
+            >
+              <h5 className="text-white mb-3 fw-bold">{title}</h5>
+            </div>
+          </div>
+        </Link>
+      </div>
+    );
+  };
+
+  return (
+    <div className="container mt-4">
+      <HeaderWithoutSearch />
+
+      <div className="bg-light py-5 mb-5 text-center">
+        <div className="container">
+          <h1 className="display-4 fw-bold">Discover Your Next Read</h1>
+          <p className="lead text-muted mb-4">
+            Explore curated collection of books across genres.
+          </p>
+          <Link
+            to="/products/category/Fiction"
+            className="btn btn-dark btn-lg px-5 rounded-pill"
+          >
+            Explore Collections
+          </Link>
+        </div>
+      </div>
+
+      <div>
+        <div className="row mt-4">
+          <CategoryCard
+            title="Poetry"
+            image="https://covers.libro.fm/9780063429536_1120.jpg"
+            link="/products/category/poetry"
+          />
+          <CategoryCard
+            title="Fiction"
+            image="https://m.media-amazon.com/images/I/612KmKeEYEL._AC_UF1000,1000_QL80_.jpg"
+            link="/products/category/Fiction"
+          />
+          <CategoryCard
+            title="Non-fiction"
+            image="https://m.media-amazon.com/images/I/71m+kC4vOxL._UF1000,1000_QL80_.jpg"
+            link="/products/category/Non-fiction"
+          />
+          <CategoryCard
+            title="Art & Music"
+            image="https://c.files.bbci.co.uk/1260/production/_108240740_beatles-abbeyroad-index-reuters-applecorps.jpg"
+            link="/products/category/art & music"
+          />
+          <CategoryCard
+            title="History"
+            image="https://m.media-amazon.com/images/I/71vkxIftlzL._AC_UF1000,1000_QL80_.jpg"
+            link="/products/category/history"
+          />
+          <CategoryCard
+            title="Classic"
+            image="https://m.media-amazon.com/images/I/91U1UDM3cnL._UF1000,1000_QL80_.jpg"
+            link="/products/category/classic"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default HomePage;
