@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import useFetch from "../useFetch";
 import { useNavigate, Link } from "react-router-dom";
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
+import Footer from "../constants/Footer";
 const CheckoutPage = () => {
   const [selectAddress, setSelectAddress] = useState(null);
   const [allAddress, setAllAddress] = useState([]);
@@ -287,6 +288,7 @@ const CheckoutPage = () => {
           </div>
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

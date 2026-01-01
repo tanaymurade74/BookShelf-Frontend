@@ -3,117 +3,15 @@ import useFetch from "../useFetch";
 import { useState } from "react";
 import { useEffect } from "react";
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
-
+import useProductDetailContext from "../context/ProductDetailContext";
+import Footer from "../constants/Footer";
 const ProductDetail = () => {
-  const [quantity, setQuantity] = useState(0);
-  const [alertMessage, setAlertMessage] = useState("");
-  const [product, setProduct] = useState([]);
+    const {loading, error, quantity, setQuantity, setProductId, product
+        , handleCart, handleWishlist, decrement, increment, alertMessage
+    } = useProductDetailContext();
 
-  const decrement = () => {
-    setQuantity(quantity === 0 ? 0 : quantity - 1);
-    setAlertMessage("");
-  };
 
-  const increment = () => {
-    if (quantity === 5) {
-      setAlertMessage("Maximum available quantity: 5");
-      return;
-    }
-    setQuantity(quantity + 1);
-    setAlertMessage("");
-  };
-
-  const id = useParams();
-  const productId = id.productId;
-  console.log(productId);
-
-  const { data, loading, error } = useFetch(
-    `${process.env.REACT_APP_API_URL}/api/products/${productId}`
-  );
-  console.log(data);
-  useEffect(() => {
-    if (data && data.product) {
-      setProduct(data.product);
-    }
-  }, [data]);
-
-  const handleCart = async (item) => {
-    if (quantity === 0 && item.inCart === false) {
-      alert("The quantity selected is zero. ");
-      return;
-    }
-
-    const cartStatus = item.inCart === true ? false : true;
-    const cartQuantity = cartStatus === true ? quantity : 0;
-
-    const newProduct = product.map((prod) => {
-      return item._id === prod._id
-        ? { ...prod, inCart: cartStatus, cartQuantity: cartQuantity }
-        : { ...prod };
-    });
-    setProduct(newProduct);
-    const payload = {
-      inCart: cartStatus,
-      cartQuantity: cartQuantity,
-    };
-
-    try {
-      console.log(item.name);
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      const data = await response.json();
-    } catch {
-      alert(
-        "An error occurred while trying add/remove to/from cart. Try again"
-      );
-    }
-  };
-
-  const handleWishlist = async (item) => {
-    const wishListStatus = item.inWishlist === true ? false : true;
-
-    const newProd = product.map((prod) => {
-      return prod._id === item._id
-        ? { ...prod, inWishlist: wishListStatus }
-        : { ...prod };
-    });
-
-    setProduct(newProd);
-
-    const payload = {
-      inWishlist: wishListStatus,
-    };
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (!response.ok) {
-        throw "Failed to update";
-      }
-
-      const data = await response.json();
-    } catch (error) {
-      alert("Error while moving/removing from wishList.Try again");
-    }
-  };
-
+  
   return (
     <>
       <HeaderWithoutSearch />
@@ -122,13 +20,13 @@ const ProductDetail = () => {
         {error && <p>Error while fetching the details for the product</p>}
 
         <div className="container mt-4 ">
-          {product.map((item) => (
+          {!loading && product.map((item) => (
             <div className="row">
-              <div className="col-md-6">
-                <div>
+              <div className="col-md-4 text-center">
+                <div style = {{maxWidth: "400px", width: "100%"}}>
                   <img
                     className="img-fluid"
-                    style={{ height: "500px", objectFit: "cover" }}
+                    style={{ height: "400px",width: "400px", objectFit: "contain" }}
                     src={item.imageUrl}
                   />
                   <br />
@@ -150,7 +48,7 @@ const ProductDetail = () => {
                   <br />
                 </div>
               </div>
-              <div className="col-md-6">
+              <div className="col-md-8 text-center">
                 <h2>{item.name}</h2>
                 <br />
                 <p>
@@ -232,6 +130,7 @@ const ProductDetail = () => {
           ))}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };

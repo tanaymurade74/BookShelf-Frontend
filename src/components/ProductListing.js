@@ -2,160 +2,40 @@ import { useParams, Link } from "react-router-dom";
 import { useEffect, useState } from "react";
 import useFetch from "../useFetch";
 import Header from "../constants/Header";
-
+import useProductContext from "../context/ProductContext"
+// import { ProductProvider } from "../context/ProductContext";
+import Footer from "../constants/Footer";
 const ProductListing = () => {
   const param = useParams();
   console.log(param);
   const categoryName = param.categoryName;
   console.log(categoryName);
    
-  const [allProducts, setAllProducts] = useState([]);
-  const [products, setProducts] = useState([]);
-  const [selectCategory, setSelectCategory] = useState(`${categoryName}`);
-  const [ratingRange, setRatingRange] = useState(0);
-  const [discountRange, setDiscountRange] = useState(0);
-  const [priceOrder, setPriceOrder] = useState("");
-   
-  const [search, setSearch] = useState("");
-
-  console.log(search);
-
-  const apiUrl =
-    search.trim() === ""
-      ? `${process.env.REACT_APP_API_URL}/api/products/category/${selectCategory}`
-      : `${process.env.REACT_APP_API_URL}/api/product/search/${encodeURIComponent(
-          search
-        )}`;
-
-  console.log(apiUrl);
-
-  const { data, loading, error } = useFetch(apiUrl);
-
-  console.log("data", data);
-
-  useEffect(() => {
-    if (data && data.products) {
-      setProducts(data.products);
-      setAllProducts(data.products);
-    }
-  }, [data]);
-
-  useEffect(() => {
-    let filteredProducts = [...allProducts];
-    if (ratingRange > 0) {
-      filteredProducts = filteredProducts.filter(
-        (prod) => prod.rating >= ratingRange
-      );
-    }
-    if (discountRange > 0) {
-      filteredProducts = filteredProducts.filter(
-        (prod) => prod.discountPercentage >= discountRange
-      );
-    }
  
-    if (priceOrder === "asc") {
-      filteredProducts.sort((a, b) => {
-        const priceA = a.price - (a.price * a.discountPercentage) / 100;
-        const priceB = b.price - (b.price * b.discountPercentage) / 100;
-        return priceA - priceB;
-      });
-    } else if (priceOrder === "desc") {
-      filteredProducts.sort((a, b) => {
-        const priceA = a.price - (a.price * a.discountPercentage) / 100;
-        const priceB = b.price - (b.price * b.discountPercentage) / 100;
-        return priceB - priceA;
-      });
-    }
-    setProducts(filteredProducts);
-  }, [ratingRange, discountRange, allProducts, priceOrder]);
+  const { products, selectCategory, setSelectCategory,
+        ratingRange, setRatingRange, discountRange, setDiscountRange, priceOrder, setPriceOrder
+        , search, setSearch, handleWishlist, handleCart, handleClear, loading, error } = useProductContext();
 
-  const handleWishlist = async (item) => {
-    const wishListStatus = item.inWishlist === true ? false : true;
-
-    const updatedProducts = products.map((prod) =>
-      prod._id === item._id
-        ? { ...prod, inWishlist: wishListStatus }
-        : { ...prod }
-    );
-
-    setProducts(updatedProducts);
-
-    const payload = {
-      inWishlist: wishListStatus,
-    };
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      if (!response.ok) {
-        throw "Failed to update the item";
-      }
-      const data = await response.json();
-    } catch (error) {
-      alert("Failed to add the item to wishlist. Try again.");
-    }
-  };
-
-  const handleCart = async (item) => {
-    const cartStatus = item.inCart === true ? false : true;
-    const newQuantity = item.inCart === true ? 0 : item.cartQuantity + 1;
-    const previousProducts = [...products];
-
-    const updatedProducts = products.map((prod) =>
-      prod._id === item._id
-        ? { ...prod, inCart: cartStatus, cartQuantity: newQuantity }
-        : { ...prod }
-    );
-    setProducts(updatedProducts);
-
-    const payload = {
-      inCart: cartStatus,
-      cartQuantity: newQuantity,
-    };
-
-    try {
-      const response = await fetch(
-        `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-      if (!response.ok) {
-        throw "error while updating";
-      }
-      const data = await response.json();
-    } catch (error) {
-      // throw error;
-      setProducts(previousProducts);
-      alert("Failed to upadate the cart. Please try again.");
-    }
-  };
-
-  const handleClear = (event) => {
-    setDiscountRange(0);
-    setRatingRange(0);
-    setSelectCategory(`${categoryName}`);
-    setPriceOrder("");
-  };
 
   return (
     <div>
       <Header search={search} setSearch={setSearch} />
       <div className="container p-4 bg-body-secondary">
+
+          <button 
+            className="btn btn-primary w-100 mb-3 d-md-none" 
+            type="button" 
+            data-bs-toggle="collapse" 
+            data-bs-target="#filterSection" 
+            aria-expanded="false" 
+            aria-controls="filterSection"
+        >
+            Show/Hide Filters
+        </button>
+
         <div className="row">
           <div className="col-md-4">
+             <div className="collapse d-md-block" id="filterSection">
             <div className="row">
               <div className="col-md-6">
                 <h3>Filters</h3>
@@ -164,6 +44,7 @@ const ProductListing = () => {
                 <button onClick={() => handleClear()}>Clear</button>
               </div>
             </div>
+            <div>
             <label className="mt-3">
               <strong>Category:</strong>
             </label>
@@ -172,16 +53,16 @@ const ProductListing = () => {
               value={selectCategory}
               onChange={(event) => setSelectCategory(event.target.value)}
             >
-              <option value="Fiction">Fiction</option>
-              <option value="Non-fiction">Non-fiction</option>
-              <option value="Poetry">Poetry</option>
-              <option value="History">History</option>
-              <option value="Classic">Classic</option>
-              <option value="Art & Music">Art & Music</option>
+              <option  value="fiction">Fiction</option>
+              <option  value="non-fiction">Non-fiction</option>
+              <option  value="poetry">Poetry</option>
+              <option  value="history">History</option>
+              <option  value="classic">Classic</option>
+              <option  value="art & music">Art & Music</option>
             </select>
             <hr />
             <label id="rating">
-              <strong>Rating Range: </strong>{" "}
+              <strong>Rating Range: </strong>
             </label>
             <br />
             <input
@@ -280,34 +161,46 @@ const ProductListing = () => {
             />
             High To Low
           </div>
+        </div>
+        </div>
 
           <div className="col-md-8">
-            <h3>
+            {/* <h3>
               Showing All {data && data.products && data.products.length}{" "}
               Products
-            </h3>
-            {loading && <p>Loading....</p>}
+            </h3> */}
+            {loading && <p className="text-center align-middle"> <img className="img-fluid" style = {{height: "300px", objectFit: "cover"}} 
+            src = "https://i.ytimg.com/vi/rumF8zJUFYI/sddefault.jpg?sqp=-oaymwEmCIAFEOAD8quKqQMa8AEB-AHeA4AC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLBetpZfRpGjZ-Z0To7ykofzqT43XQq"/>
+            </p>}
             {error && <p> Error while trying to fetch the data </p>}
 
+            {!loading && products && products.length === 0 ? <div className="text-center">
+                    <img className="img-fluid" src = "https://www.jalongi.com/public/assets/images/product_not_found.jpeg" />
+            </div> :
             <div className="row mt-4">
-              {products.map((item) => (
+               {!loading && <h3>
+              Showing All {products && products.length}{" "}
+              Products
+            </h3>}
+              {!loading && products && products.length > 0 && products.map((item) => (
                 <div className="col-md-6 mt-4">
                   <div className="row">
-                    <div className="col-md-6 ">
+                    <div className="col-md-6 text-center" style = {{height: "250px"}} >
                       <Link to={`/product/${item._id}`}>
                         <img
                           src={item.imageUrl}
                           className="img-fluid"
-                          style={{ height: "250px", objectFit: "cover" }}
+                          style={{ height: "250px", objectFit: "contain" }}
                         />
                       </Link>
                     </div>
-                    <div className="col-md-6 mt-2 text-dark">
+                    <div className="col-md-6 text-center mt-2 text-dark">
                       <span>
                         <h5>
                           <strong>{item.name}</strong>
                         </h5>
                       </span>
+                      <span>Rating: {item.rating}</span><br/>
                       <br />
                       <span>MRP - USD: {item.price.toFixed(2)}</span>
                       <br />
@@ -345,9 +238,11 @@ const ProductListing = () => {
                 </div>
               ))}
             </div>
+}
           </div>
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

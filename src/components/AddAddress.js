@@ -53,6 +53,7 @@ const AddAddress = () => {
     }
 
     return <div className="container p-3">
+        <h2>Address Form</h2>
         <form onSubmit = {handleSubmit} className="form-control">
             <label>Block: </label><br/>
             <input required type = "text" value = {block} onChange = {(event) => setBlock(event.target.value)}/><br/><br/>

@@ -1,18 +1,20 @@
 import { Link } from "react-router-dom";
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
+import Footer from "../constants/Footer";
 
 const HomePage = () => {
   const CategoryCard = ({ title, image, link }) => {
     return (
-      <div className="col-md-2">
+      <div className="col-6 col-md-4 col-lg-2 text-center mt-2">
         <Link to={link}>
           <div className="card">
-            <div className="card-img">
+            <div className="card-img  " style = {{overflow: "hidden"}}>
               <img
                 className="img-fluid"
                 style={{
                   height: "200px",
-                  width: "170px",
+                  width: "200px",
+                  overflow: "hidden",
                   objectFit: "cover",
                   transform: "transform 0.3s",
                 }}
@@ -69,12 +71,12 @@ const HomePage = () => {
           <CategoryCard
             title="Fiction"
             image="https://m.media-amazon.com/images/I/612KmKeEYEL._AC_UF1000,1000_QL80_.jpg"
-            link="/products/category/Fiction"
+            link="/products/category/fiction"
           />
           <CategoryCard
             title="Non-fiction"
             image="https://m.media-amazon.com/images/I/71m+kC4vOxL._UF1000,1000_QL80_.jpg"
-            link="/products/category/Non-fiction"
+            link="/products/category/non-fiction"
           />
           <CategoryCard
             title="Art & Music"
@@ -93,6 +95,7 @@ const HomePage = () => {
           />
         </div>
       </div>
+      <Footer/>
     </div>
   );
 };

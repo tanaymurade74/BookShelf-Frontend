@@ -1,6 +1,6 @@
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useFetch from "../useFetch";
-
+import Footer from "../constants/Footer";
 const UserProfile = () => {
   const { data, loading, error } = useFetch(
     `${process.env.REACT_APP_API_URL}/api/user/address`
@@ -55,29 +55,26 @@ const UserProfile = () => {
                     <div className="card">
                       <div className="row">
                         {order.items.map((item) => (
-                          <div className="col-md-4 p-3">
+                          <div className="col-md-4 text-center p-3">
                             <img
                               className="img-fluid"
                               style={{ height: "250px", objectFit: "cover" }}
                               src={item.imageUrl}
                             />
                             <p>
-                              {" "}
                               <strong>Name:</strong> {item.name}
                             </p>
                             <p>
-                              {" "}
                               <strong>Price:</strong> USD {item.price}
                             </p>
                             <p>
-                              {" "}
                               <strong>Quantity:</strong> {item.quantity}
                             </p>
                           </div>
                         ))}
                       </div>
                       <hr />
-                      <div className="p-3">
+                      <div className="p-3 text-center">
                         <p>
                           <strong>Total Order Amount:</strong> USD{" "}
                           {order.totalAmount}
@@ -117,6 +114,7 @@ const UserProfile = () => {
           )}
         </div>
       </div>
+      <Footer/>
     </>
   );
 };
