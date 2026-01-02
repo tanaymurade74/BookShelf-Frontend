@@ -8,7 +8,7 @@ const Wishlist = () => {
   const [items, setItems] = useState(0);
   const [products, setProducts] = useState([]);
   const{addToCart, removeFromCart, toggleWishlist, wishlistItems, wishlistProducts, loading, error, cartProducts} = useCartWishlistContext();
-
+  const isInCart = (id) => cartProducts.some((p) => p._id === id);
 
   return (
     <>
@@ -23,45 +23,77 @@ const Wishlist = () => {
         </div>
       ) : (
         <div className="container p-3">
-          {loading && <p>Loading...</p>}
+          {loading && (
+              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+                <div className="text-center">
+                    <div className="spinner-border text-primary" style={{width: "3rem", height: "3rem"}} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="mt-3 fs-5 text-muted">Fetching...</p>
+                </div>
+              </div>
+            )}
+            
           {error && <p>Error while fetching the wishlist items</p>}
           <h1>My Wishlist ({wishlistItems})</h1>
-          <div className="row">
+          <div className="row mt-4">
             {wishlistProducts.map((prod) => (
-              <div className="col-md-4 mt-4">
-                <>
-                  <Link to={`/product/${prod._id}`}>
+              <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={prod._id}>
+                <div className="card h-100 ">
+                  <Link to={`/product/${prod._id}`} className="text-decoration-none">
                     <img
                       src={prod.imageUrl}
-                      style={{ height: "300px", objectFit: "cover" }}
+                      className="card-img-top"
+                      style={{ height: "220px", objectFit: "cover" }}
+                      alt={prod.name || "Product image"}
                     />
-                    <br />
                   </Link>
-                  <div>
-                    <strong>
-                      USD :{" "}
-                      {(
-                        prod.price -
-                        prod.price * (prod.discountPercentage / 100)
-                      ).toFixed(2)}
-                    </strong>
-                    &nbsp;&nbsp;
-                    <span className="text-decoration-line-through">
-                      USD: {prod.price.toFixed(2)}
-                    </span>
+
+                  <div className="card-body d-flex flex-column">
+                    {prod.name && (
+                      <h6 className="card-title text-truncate mb-2">
+                        {prod.name}
+                      </h6>
+                    )}
+
+                    <div className="mb-3">
+                      <span className="fw-bold me-2">
+                        USD{" "}
+                        {(
+                          prod.price -
+                          prod.price * (prod.discountPercentage / 100)
+                        ).toFixed(2)}
+                      </span>
+                      <small className="text-muted text-decoration-line-through">
+                        USD {prod.price.toFixed(2)}
+                      </small>
+                    </div>
+
+                    <div className="mt-auto">
+                      <button
+                        type="button"
+                        className="btn btn-outline-danger w-100 mb-2"
+                        onClick={() => toggleWishlist(prod)}
+                      >
+                        {prod.inWishlist ? "Remove from Wishlist" : "Move to Wishlist"}
+                      </button>
+
+                      <button
+                        type="button"
+                        className={`btn w-100 ${
+                          isInCart(prod._id) ? "btn-outline-secondary" : "btn-success"
+                        }`}
+                        onClick={() =>
+                          isInCart(prod._id)
+                            ? removeFromCart(prod)
+                            : addToCart(prod, 1)
+                        }
+                      >
+                        {isInCart(prod._id) ? "Remove from Cart" : "Add to Cart"}
+                      </button>
+                    </div>
                   </div>
-                  <br />
-                  <button
-                    type="button"
-                    className="btn btn-primary "
-                    onClick={() => toggleWishlist(prod)}
-                  >
-                    {prod.inWishlist === true
-                      ? "Remove From Wishlist"
-                      : "Move To Wishlist"}
-                  </button><br/><br/>
-                  <button className="btn btn-success " onClick = {() => cartProducts.some(p => p._id === prod._id)? removeFromCart(prod): addToCart(prod, 1)}>{cartProducts.some(p => p._id === prod._id)? "Remove From Cart" : "Add To Cart"}</button>
-                </>
+                </div>
               </div>
             ))}
 

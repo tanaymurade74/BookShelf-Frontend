@@ -33,36 +33,8 @@ export function CartWishlistProvider({children}){
     }
     const cartQuantity = item.cartQuantity + 1;
 
-    // const updatedProds = cartProducts.map((prod) => {
-    //   return prod._id === item._id
-    //     ? { ...prod, cartQuantity: cartQuantity }
-    //     : { ...prod };
-    // });
-    // setCartProducts(updatedProds);
-    // setCartItems(
-    //   updatedProds.reduce((acc, item) => acc + item.cartQuantity, 0)
-    // );
-    
     addToCart(item, cartQuantity);
     
-
-    // const payload = {
-    //   cartQuantity: cartQuantity,
-    // };
-    // try {
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(payload),
-    //     }
-    //   );
-    // } catch (error) {
-    //   alert("Error in incrementing the cart item. Try again.");
-    // }
   };
 
   const decrement = async (item) => {
@@ -74,35 +46,8 @@ export function CartWishlistProvider({children}){
 
     const cartQuantity = item.cartQuantity - 1;
 
-    // const updatedProds = cartProducts.map((prod) => {
-    //   return prod._id === item._id
-    //     ? { ...prod, cartQuantity: cartQuantity }
-    //     : { ...prod };
-    // });
-    // setCartProducts(updatedProds);
-    // setCartItems(
-    //   updatedProds.reduce((acc, item) => acc + item.cartQuantity, 0)
-    // );
-
     addToCart(item, cartQuantity);
 
-    // const payload = {
-    //   cartQuantity: cartQuantity,
-    // };
-    // try {
-    //   const response = await fetch(
-    //     `${process.env.REACT_APP_API_URL}/api/products/${item.name}`,
-    //     {
-    //       method: "POST",
-    //       headers: {
-    //         "Content-Type": "application/json",
-    //       },
-    //       body: JSON.stringify(payload),
-    //     }
-    //   );
-    // } catch {
-    //   alert("Error while trying to decrement the cart Quantity");
-    // }
   };
 
   useEffect(() => {

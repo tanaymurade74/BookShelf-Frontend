@@ -1,26 +1,10 @@
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useFetch from "../useFetch";
 import Footer from "../constants/Footer";
+import useUserProfileContext from "../context/UserProfileContext";
 const UserProfile = () => {
-  const { data, loading, error } = useFetch(
-    `${process.env.REACT_APP_API_URL}/api/user/address`
-  );
-  console.log(data);
-
-  const {
-    data: orders,
-    loading: load,
-    error: ordersError,
-  } = useFetch(`${process.env.REACT_APP_API_URL}/api/user/orders`);
-  console.log(orders);
-
-  const userDetails = {
-    name: "User1",
-    email: "abc@mail.com",
-    imageUrl:
-      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNGOXfXTU8aFxFIxmWNUoMfq690PSezjg94Q&s",
-    phone: "+45999999",
-  };
+  const { userDetails, data, allAddress, viewAddress, setViewAddress } =
+    useUserProfileContext();
 
   return (
     <>
@@ -42,34 +26,67 @@ const UserProfile = () => {
           <p>
             <strong>Phone:</strong> {userDetails.phone}{" "}
           </p>
+          <p>
+            <button
+              onClick={() => setViewAddress(viewAddress == true ? false : true)}
+            >
+              {viewAddress == true
+                ? "Hide Available Address"
+                : "View Available Address"}
+            </button>
+          </p>
+          {viewAddress === true ? (
+            <div>
+              <div className="row">
+                {allAddress?.map((item) => (
+                  <div className="col-md-4">
+                    {item.block}, <br /> {item.street} <br /> {item.city},{" "}
+                    {item.state} <br /> {item.pincode}
+                  </div>
+                ))}
+              </div>
+            </div>
+          ) : (
+            ""
+          )}
         </div>
         <hr />
         <div>
-          <h2 className="text-center">Orders Placed</h2>
-          {orders && orders.orders && orders.orders.length > 0 ? (
-            <div className="row mt-4 p-3">
-              {orders &&
-                orders.orders &&
-                orders.orders.map((order) => (
-                  <div className="col-md-6 mt-4">
-                    <div className="card">
+          <h2 className="text-center mb-4">Orders Placed</h2>
+          {data && data.orders && data.orders.length > 0 ? (
+            <div className="row mt-4 p-3 g-4">
+              {data &&
+                data.orders &&
+                data.orders.map((order) => (
+                  <div className="col-lg-6 col-12 mt-4 d-flex align-items-stretch">
+                    <div className="card w-100">
                       <div className="row">
                         {order.items.map((item) => (
-                          <div className="col-md-4 text-center p-3">
-                            <img
-                              className="img-fluid"
-                              style={{ height: "250px", objectFit: "cover" }}
-                              src={item.imageUrl}
-                            />
-                            <p>
-                              <strong>Name:</strong> {item.name}
-                            </p>
-                            <p>
-                              <strong>Price:</strong> USD {item.price}
-                            </p>
-                            <p>
-                              <strong>Quantity:</strong> {item.quantity}
-                            </p>
+                          <div className="col-12 border-bottom p-3">
+                            <div className="d-flex align-items-center">
+                              <div className="flex-shrink-0">
+                                <img
+                                  className="img-fluid rounded"
+                                  style={{
+                                    height: "80px",
+                                    width: "60px",
+                                    objectFit: "cover",
+                                  }}
+                                  src={item.imageUrl}
+                                />
+                              </div>
+                              <div className="flex-grow-1 ms-3 text-start">
+                                <h6 className="mb-1">
+                                  <strong>{item.name}</strong>
+                                </h6>
+                                <p className="mb-0 small text-muted">
+                                  Price: USD {item.price} x {item.quantity}
+                                </p>
+                              </div>
+                              <div className="fw-bold">
+                                USD {(item.price * item.quantity).toFixed(2)}
+                              </div>
+                            </div>
                           </div>
                         ))}
                       </div>
@@ -114,7 +131,7 @@ const UserProfile = () => {
           )}
         </div>
       </div>
-      <Footer/>
+      <Footer />
     </>
   );
 };

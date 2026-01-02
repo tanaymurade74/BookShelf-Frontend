@@ -6,10 +6,6 @@ import useProductContext from "../context/ProductContext"
 // import { ProductProvider } from "../context/ProductContext";
 import Footer from "../constants/Footer";
 const ProductListing = () => {
-  const param = useParams();
-  console.log(param);
-  const categoryName = param.categoryName;
-  console.log(categoryName);
    
  
   const { products, selectCategory, setSelectCategory,
@@ -34,7 +30,7 @@ const ProductListing = () => {
         </button>
 
         <div className="row">
-          <div className="col-md-4">
+          <div className="col-md-3">
              <div className="collapse d-md-block" id="filterSection">
             <div className="row">
               <div className="col-md-6">
@@ -164,14 +160,24 @@ const ProductListing = () => {
         </div>
         </div>
 
-          <div className="col-md-8">
+          <div className="col-md-9">
             {/* <h3>
               Showing All {data && data.products && data.products.length}{" "}
               Products
             </h3> */}
-            {loading && <p className="text-center align-middle"> <img className="img-fluid" style = {{height: "300px", objectFit: "cover"}} 
-            src = "https://i.ytimg.com/vi/rumF8zJUFYI/sddefault.jpg?sqp=-oaymwEmCIAFEOAD8quKqQMa8AEB-AHeA4AC4AOKAgwIABABGGUgZShlMA8=&rs=AOn4CLBetpZfRpGjZ-Z0To7ykofzqT43XQq"/>
-            </p>}
+            {loading && (
+              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+                <div className="text-center">
+                    <div className="spinner-border text-primary" style={{width: "3rem", height: "3rem"}} role="status">
+                        <span className="visually-hidden">Loading...</span>
+                    </div>
+                    <p className="mt-3 fs-5 text-muted">Fetching...</p>
+                </div>
+              </div>
+            )}
+            
+
+
             {error && <p> Error while trying to fetch the data </p>}
 
             {!loading && products && products.length === 0 ? <div className="text-center">
@@ -183,9 +189,10 @@ const ProductListing = () => {
               Products
             </h3>}
               {!loading && products && products.length > 0 && products.map((item) => (
-                <div className="col-md-6 mt-4">
-                  <div className="row">
-                    <div className="col-md-6 text-center" style = {{height: "250px"}} >
+                 <div className="col-md-6 mt-4 d-flex align-items-stretch"> 
+                  <div className="row w-100 bg-white rounded p-2 m-0 shadow-sm"> 
+                    
+                    <div className="col-md-6 text-center d-flex align-items-center justify-content-center" style = {{height: "250px"}} >
                       <Link to={`/product/${item._id}`}>
                         <img
                           src={item.imageUrl}
@@ -194,7 +201,8 @@ const ProductListing = () => {
                         />
                       </Link>
                     </div>
-                    <div className="col-md-6 text-center mt-2 text-dark">
+                    
+                    <div className="col-md-6 text-center mt-2 text-dark d-flex flex-column">
                       <span>
                         <h5>
                           <strong>{item.name}</strong>
@@ -216,26 +224,31 @@ const ProductListing = () => {
                           </strong>
                         </h6>
                       </p>
-                      <button
-                        className="btn btn-primary form-control"
-                        onClick={() => handleCart(item)}
-                      >
-                        {item.inCart === true
-                          ? "Remove From Cart"
-                          : "Add To Cart"}
-                      </button>
-                      <br />
-                      <button
-                        className="btn btn-secondary mt-2 form-control"
-                        onClick={() => handleWishlist(item)}
-                      >
-                        {item.inWishlist === true
-                          ? "Remove From Wishlist"
-                          : "Add To Wishlist"}
-                      </button>
+                      
+                      <div className="mt-auto w-100">
+                        <button
+                            className="btn btn-primary form-control"
+                            onClick={() => handleCart(item)}
+                        >
+                            {item.inCart === true
+                            ? "Remove From Cart"
+                            : "Add To Cart"}
+                        </button>
+                        <br />
+                        <button
+                            className="btn btn-secondary mt-2 form-control"
+                            onClick={() => handleWishlist(item)}
+                        >
+                            {item.inWishlist === true
+                            ? "Remove From Wishlist"
+                            : "Add To Wishlist"}
+                        </button>
+                      </div>
+
                     </div>
                   </div>
                 </div>
+              
               ))}
             </div>
 }

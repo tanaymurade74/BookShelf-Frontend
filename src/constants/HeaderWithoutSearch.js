@@ -8,7 +8,9 @@ const HeaderWithoutSearch = () => {
       <nav className="navbar navbar-expand-lg bg-body-tertiary">
         <div className="container-fluid">
           <NavLink className="navbar-brand text-danger fst-italic" to="/">
-            <h3>BookShelf</h3>
+            <img className="me-3" style ={{height: "30px", width: "30px"}} src = "https://imgs.search.brave.com/7IhQu-sGgLaCmT3tAbHqbfCh4svuqEVOgh-MdoezsEc/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9ib29r/c2hlbGYtc2lnbi1s/aW5lLWljb24tbG9n/by1ib29rcy1zaGVs/dmVzLWNvbmNlcHQt/bGlicmFyeS12ZWN0/b3ItbGluZWFyLWls/bHVzdHJhdGlvbi0y/MDUwMjE1NzcuanBn"/>
+
+            BookShelf
           </NavLink>
           <button
             className="navbar-toggler"
