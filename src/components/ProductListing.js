@@ -14,8 +14,10 @@ const ProductListing = () => {
 
 
   return (
+    <>
+    <Header search={search} setSearch={setSearch} />
     <div>
-      <Header search={search} setSearch={setSearch} />
+      
       <div className="container p-4 bg-body-secondary">
 
           <button 
@@ -190,14 +192,14 @@ const ProductListing = () => {
             </h3>}
               {!loading && products && products.length > 0 && products.map((item) => (
                  <div className="col-md-6 mt-4 d-flex align-items-stretch"> 
-                  <div className="row w-100 bg-white rounded p-2 m-0 shadow-sm"> 
+                  <div className="row w-100 bg-white rounded overflow-hidden"> 
                     
-                    <div className="col-md-6 text-center d-flex align-items-center justify-content-center" style = {{height: "250px"}} >
-                      <Link to={`/product/${item._id}`}>
+                    <div className="col-md-6  p-0"  >
+                      <Link to={`/product/${item._id}`} className="h-100">
                         <img
                           src={item.imageUrl}
                           className="img-fluid"
-                          style={{ height: "250px", objectFit: "contain" }}
+                          style={{width: "100%", height: "100%", objectFit: "cover" }}
                         />
                       </Link>
                     </div>
@@ -255,8 +257,9 @@ const ProductListing = () => {
           </div>
         </div>
       </div>
-      <Footer/>
     </div>
+    <Footer/>
+    </>
   );
 };
 

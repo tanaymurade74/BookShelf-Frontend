@@ -2,9 +2,13 @@ import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useFetch from "../useFetch";
 import Footer from "../constants/Footer";
 import useUserProfileContext from "../context/UserProfileContext";
+import useCheckoutContext from "../context/CheckoutContext";
+import { Link } from "react-router-dom";
 const UserProfile = () => {
   const { userDetails, data, allAddress, viewAddress, setViewAddress } =
     useUserProfileContext();
+
+  const { handleDelete } = useCheckoutContext();
 
   return (
     <>
@@ -18,17 +22,19 @@ const UserProfile = () => {
             />
           </p>
           <p>
-            <strong>Name:</strong> {userDetails.name}{" "}
+            <strong>Name:</strong> {userDetails.name}
           </p>
           <p>
-            <strong>Email:</strong> {userDetails.email}{" "}
+            <strong>Email:</strong> {userDetails.email}
           </p>
           <p>
-            <strong>Phone:</strong> {userDetails.phone}{" "}
+            <strong>Phone:</strong> {userDetails.phone}
           </p>
           <p>
             <button
-              onClick={() => setViewAddress(viewAddress == true ? false : true)}
+              onClick={() =>
+                setViewAddress(viewAddress === true ? false : true)
+              }
             >
               {viewAddress == true
                 ? "Hide Available Address"
@@ -38,12 +44,52 @@ const UserProfile = () => {
           {viewAddress === true ? (
             <div>
               <div className="row">
-                {allAddress?.map((item) => (
-                  <div className="col-md-4">
-                    {item.block}, <br /> {item.street} <br /> {item.city},{" "}
-                    {item.state} <br /> {item.pincode}
+                {allAddress && allAddress.length > 0 ? (
+                  allAddress.map((item) => (
+                    <div className="col-md-4 mt-3">
+                      <div className="card h-100 p-2 ">
+                        {item.block}, <br /> {item.street} <br /> {item.city},{" "}
+                        {item.state} <br /> {item.pincode}
+                        <div className="justify-content-end mt-4 mb-2">
+                          <button
+                            onClick={() => handleDelete(item._id)}
+                            className="btn btn-danger me-4"
+                          >
+                            Delete
+                          </button>
+                          <Link
+                            to="/addAddress"
+                            state={{ address: item, page: "profile" }}
+                            className="btn btn-warning"
+                          >
+                            Update
+                          </Link>
+                        </div>
+                      </div>
+                    </div>
+                  ))
+                ) : (
+                  <div>
+                    <img
+                      className="align-items-middle"
+                      style={{
+                        height: "400px",
+                        width: "800px",
+                        objectFit: "cover",
+                      }}
+                      src="https://www.shutterstock.com/image-illustration/modern-design-concept-add-address-600nw-2559007593.jpg"
+                    />
                   </div>
-                ))}
+                )}
+                <div className="justify-content-between mt-3">
+                  <Link
+                    className="btn btn-primary "
+                    to="/addAddress"
+                    state={{ page: "profile" }}
+                  >
+                    Add New Address
+                  </Link>
+                </div>
               </div>
             </div>
           ) : (
@@ -58,13 +104,14 @@ const UserProfile = () => {
               {data &&
                 data.orders &&
                 data.orders.map((order) => (
-                  <div className="col-lg-6 col-12 mt-4 d-flex align-items-stretch">
-                    <div className="card w-100">
+                  <div className="col-lg-6 col-12 mt-4 ">
+                    <div className="card w-100 h-100">
                       <div className="row">
                         {order.items.map((item) => (
-                          <div className="col-12 border-bottom p-3">
+                          <div className="col-12  p-3">
                             <div className="d-flex align-items-center">
                               <div className="flex-shrink-0">
+                                {/* <Link to={`/product/${item._id}`}> */}
                                 <img
                                   className="img-fluid rounded"
                                   style={{
@@ -74,6 +121,7 @@ const UserProfile = () => {
                                   }}
                                   src={item.imageUrl}
                                 />
+                                {/* </Link> */}
                               </div>
                               <div className="flex-grow-1 ms-3 text-start">
                                 <h6 className="mb-1">

@@ -6,7 +6,7 @@ import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useProductDetailContext from "../context/ProductDetailContext";
 import Footer from "../constants/Footer";
 const ProductDetail = () => {
-    const {loading, error, quantity, setQuantity, setProductId, product
+    const {loading, error, quantity, product
         , handleCart, handleWishlist, decrement, increment, alertMessage
     } = useProductDetailContext();
 

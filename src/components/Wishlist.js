@@ -40,11 +40,11 @@ const Wishlist = () => {
             {wishlistProducts.map((prod) => (
               <div className="col-sm-6 col-md-4 col-lg-3 mb-4" key={prod._id}>
                 <div className="card h-100 ">
-                  <Link to={`/product/${prod._id}`} className="text-decoration-none">
+                  <Link to={`/product/${prod._id}`} className="d-block h-100">
                     <img
                       src={prod.imageUrl}
                       className="card-img-top"
-                      style={{ height: "220px", objectFit: "cover" }}
+                      style={{ width: "100%", height: "100%", objectFit: "cover" }}
                       alt={prod.name || "Product image"}
                     />
                   </Link>

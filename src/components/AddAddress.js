@@ -1,12 +1,15 @@
 import { Link, useNavigate, useLocation } from "react-router-dom"
 import Footer from "../constants/Footer";
 import useAddressContext from "../context/AddressContext";
+import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 const AddAddress = () => {
     
     const {addressToUpdate, setBlock, setCity, setPincode, setState
         , setStreet, handleSubmit, block, city, street, pincode, state} = useAddressContext();
   
-    return <div className="container p-3">
+    return <>
+    <HeaderWithoutSearch/>
+    <div className="container p-3">
         <h2>Address Form</h2>
         <form onSubmit = {handleSubmit} className="form-control">
             <label>Block: </label><br/>
@@ -23,8 +26,10 @@ const AddAddress = () => {
             <Link className="btn btn-warning" to = "/checkout">Back To Checkout</Link>
             
         </form>
-        <Footer/>
+        
     </div>
+    <Footer/>
+    </>
 }
 
 export default AddAddress;

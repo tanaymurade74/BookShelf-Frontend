@@ -43,9 +43,9 @@ const HomePage = () => {
   };
 
   return (
-    <div className="container mt-4">
+   <div>
       <HeaderWithoutSearch />
-
+ <div className="container mt-4">
       <div className="bg-light py-5 mb-5 text-center">
         <div className="container">
           <h1 className="display-4 fw-bold">Discover Your Next Read</h1>
@@ -95,7 +95,9 @@ const HomePage = () => {
           />
         </div>
       </div>
-      <Footer/>
+     
+    </div>
+     <Footer/>
     </div>
   );
 };

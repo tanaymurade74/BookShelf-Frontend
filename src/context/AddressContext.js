@@ -7,61 +7,76 @@ const useAddressContext = () => useContext(AddressContext);
 
 export default useAddressContext;
 
+export function AddressProvider({ children }) {
+  const navigate = useNavigate();
+  const location = useLocation();
 
-export function AddressProvider({children}){
+  // const addressToUpdate = location.state?.address;
+  // console.log(addressToUpdate);
 
-    const navigate = useNavigate();
-    const location = useLocation();
+  const [addressToUpdate, setAddressToUpdate] = useState(
+    location.state?.address || ""
+  );
+  const [block, setBlock] = useState(addressToUpdate?.block || "");
+  const [street, setStreet] = useState(addressToUpdate?.street || "");
+  const [city, setCity] = useState(addressToUpdate?.city || "");
+  const [state, setState] = useState(addressToUpdate?.state || "");
+  const [pincode, setPincode] = useState(addressToUpdate?.pincode);
 
-    // const addressToUpdate = location.state?.address;
-    // console.log(addressToUpdate);
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const payload = {
+      block,
+      street,
+      city,
+      state,
+      pincode,
+    };
 
+    try {
+      const url = addressToUpdate
+        ? `${process.env.REACT_APP_API_URL}/api/user/address/${addressToUpdate._id}`
+        : `${process.env.REACT_APP_API_URL}/api/user/address`;
 
-    const [addressToUpdate, setAddressToUpdate] = useState(location.state?.address || ""); 
-    const[block, setBlock] = useState(addressToUpdate?.block || "" )
-    const[street, setStreet] = useState(addressToUpdate?.street || "")
-    const [city, setCity] = useState(addressToUpdate?.city || "")
-    const [state, setState] = useState(addressToUpdate?.state || "")
-    const [pincode, setPincode] = useState(addressToUpdate?.pincode );
-    
+      const response = await fetch(url, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        const payload = {
-            block, 
-            street,
-            city,
-            state,
-            pincode
-        }
-
-        try{
-            const url = addressToUpdate? `${process.env.REACT_APP_API_URL}/api/user/address/${addressToUpdate._id}`:
-                                            `${process.env.REACT_APP_API_URL}/api/user/address`;
-
-            const response = await  fetch(url ,
-                {
-                    method: "POST",
-                    headers: {
-                        "Content-Type": "application/json"
-                    },
-                    body: JSON.stringify(payload)
-                }
-            )
-
-            const data = await response.json();
-        }catch{
-            alert("Error occurred while trying to add the address. Try again")
-        }
-        
-        e.target.reset();
-        navigate("/checkout")
+      const data = await response.json();
+    } catch {
+      alert("Error occurred while trying to add the address. Try again");
     }
 
+    e.target.reset();
+    if (location.state?.page === "profile") {
+      navigate("/user");
+    } else {
+      navigate("/checkout");
+    }
+  };
 
-    return <AddressContext.Provider value = {{addressToUpdate, setBlock, setCity, setPincode
-    , setState, setStreet, handleSubmit, block, city, street, pincode, state }}>
-        {children}
+  return (
+    <AddressContext.Provider
+      value={{
+        addressToUpdate,
+        setBlock,
+        setCity,
+        setPincode,
+        setState,
+        setStreet,
+        handleSubmit,
+        block,
+        city,
+        street,
+        pincode,
+        state,
+      }}
+    >
+      {children}
     </AddressContext.Provider>
-
+  );
 }

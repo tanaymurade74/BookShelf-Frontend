@@ -24,7 +24,7 @@ function App() {
   return (
     <CartWishlistProvider>
 
-      <div className="container">
+      <div >
         <Router>
           <ToastContainer
             position="bottom-right"

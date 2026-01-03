@@ -39,15 +39,15 @@ const Cart = () => {
             <div className="col-md-6">
               <div className="row">
                 {cartProducts.map((prod) => (
-                  <div className="col-md-6 ">
+                  <div className="col-md-6 d-flex mt-2 ">
                     <div className="card p-3">
-                      <Link to={`/product/${prod._id}`}>
+                      <Link to={`/product/${prod._id}`} className="d-block h-100" >
                         <img
                           src={prod.imageUrl}
                           className="card-image img-fluid"
                           style={{
-                            height: "300px",
-                            width: "300px",
+                            height: "100%",
+                            width: "100%",
                             objectFit: "cover",
                           }}
                         />
