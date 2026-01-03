@@ -5,18 +5,18 @@ import Footer from "../constants/Footer";
 const HomePage = () => {
   const CategoryCard = ({ title, image, link }) => {
     return (
-      <div className="col-6 col-md-4 col-lg-2 text-center mt-2">
+      <div className="col-6 col-md-4 d-flex align-items-stretch col-lg-2 text-center mt-2">
         <Link to={link}>
-          <div className="card">
-            <div className="card-img  " style = {{overflow: "hidden"}}>
+          <div className="card d-block h-100">
+            <div className="card-img d-block h-100 " style = {{overflow: "hidden"}}>
               <img
-                className="img-fluid"
+                className="img-fluid "
                 style={{
-                  height: "200px",
-                  width: "200px",
+                  height: "100%",
+                  width: "100%",
                   overflow: "hidden",
                   objectFit: "cover",
-                  transform: "transform 0.3s",
+                  transform: "transform 0.3s ease",
                 }}
                 onMouseEnter={(e) => (e.target.style.transform = "scale(1.2)")}
                  onMouseMove={(e) => (e.target.style.transform = "scale(1.2)")}
