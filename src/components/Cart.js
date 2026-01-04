@@ -5,137 +5,158 @@ import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useCartWishlistContext from "../context/CartWishlistContext";
 import Footer from "../constants/Footer";
 const Cart = () => {
-
-    const {cartProducts, wishlistProducts, cartItems, price
-        , discount, total, increment, decrement, loading, error
-        , toggleWishlist, removeFromCart
-    } = useCartWishlistContext();
-
-
+  const {
+    cartProducts,
+    wishlistProducts,
+    cartItems,
+    price,
+    discount,
+    total,
+    increment,
+    decrement,
+    loading,
+    error,
+    toggleWishlist,
+    removeFromCart,
+  } = useCartWishlistContext();
 
   return (
     <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
       <div className="flex-grow-1">
-
-      {cartItems == 0 ? (
-        <div className="container p-3 text-center">
-          <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" />
-        </div>
-      ) : (
-        <div className="container p-3 ">
-           {loading && (
-              <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
+        {cartItems == 0 ? (
+          <div className="container p-3 text-center">
+            <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" />
+          </div>
+        ) : (
+          <div className="container p-3 ">
+            {loading && (
+              <div
+                className="d-flex justify-content-center align-items-center"
+                style={{ minHeight: "400px" }}
+              >
                 <div className="text-center">
-                    <div className="spinner-border text-primary" style={{width: "3rem", height: "3rem"}} role="status">
-                        <span className="visually-hidden">Loading...</span>
-                    </div>
-                    <p className="mt-3 fs-5 text-muted">Fetching...</p>
+                  <div
+                    className="spinner-border text-primary"
+                    style={{ width: "3rem", height: "3rem" }}
+                    role="status"
+                  >
+                    <span className="visually-hidden">Loading...</span>
+                  </div>
+                  <p className="mt-3 fs-5 text-muted">Fetching...</p>
                 </div>
               </div>
             )}
-            
-          {error && <p>Error occurred while trying to fetch the cartItems</p>}
-          <h1>My Cart ({cartItems})</h1>
-          <div className="row mt-4">
-            <div className="col-md-6">
-              <div className="row">
-                {cartProducts.map((prod) => (
-                  <div className="col-md-6 d-flex mt-2 ">
-                    <div className="card p-3">
-                      <Link to={`/product/${prod._id}`} className="d-block h-100" >
-                        <img
-                          src={prod.imageUrl}
-                          className="card-image img-fluid"
-                          style={{
-                            height: "100%",
-                            width: "100%",
-                            objectFit: "cover",
-                          }}
-                        />
-                      </Link>
 
-                      <br />
-                      <div>
-                        <strong>
-                          USD :{" "}
-                          {(
-                            prod.price -
-                            prod.price * (prod.discountPercentage / 100)
-                          ).toFixed(2)}
-                        </strong>
-                        &nbsp;&nbsp;
-                        <span className="text-decoration-line-through">
-                          USD: {prod.price.toFixed(2)}
-                        </span>
-                      </div>
-                      <br />
-                      <div>
-                        <span>
-                          <strong>Quantity: </strong>{" "}
-                        </span>
-                        <button onClick={() => decrement(prod)}> - </button>
-                        <span> {prod.cartQuantity} </span>
-                        <button onClick={() => increment(prod)}> + </button>
+            {error && <p>Error occurred while trying to fetch the cartItems</p>}
+            <h1>My Cart ({cartItems})</h1>
+            <div className="row mt-4">
+              <div className="col-md-6">
+                <div className="row">
+                  {cartProducts.map((prod) => (
+                    <div className="col-md-6 d-flex mt-2 ">
+                      <div className="card p-3">
+                        <Link
+                          to={`/product/${prod._id}`}
+                          className="d-block h-100"
+                        >
+                          <img
+                            src={prod.imageUrl}
+                            className="card-image img-fluid"
+                            style={{
+                              height: "100%",
+                              width: "100%",
+                              objectFit: "cover",
+                            }}
+                          />
+                        </Link>
+
                         <br />
-                        <div className="text-danger">
-                          {/* {prod.cartQuantity === 1 && alertMessage || prod.cartQuantity === 5 && alertMessage} */}
+                        <div>
+                          <strong>
+                            USD :{" "}
+                            {(
+                              prod.price -
+                              prod.price * (prod.discountPercentage / 100)
+                            ).toFixed(2)}
+                          </strong>
+                          &nbsp;&nbsp;
+                          <span className="text-decoration-line-through">
+                            USD: {prod.price.toFixed(2)}
+                          </span>
                         </div>
+                        <br />
+                        <div>
+                          <span>
+                            <strong>Quantity: </strong>{" "}
+                          </span>
+                          <button onClick={() => decrement(prod)}> - </button>
+                          <span> {prod.cartQuantity} </span>
+                          <button onClick={() => increment(prod)}> + </button>
+                          <br />
+                          <div className="text-danger">
+                            {/* {prod.cartQuantity === 1 && alertMessage || prod.cartQuantity === 5 && alertMessage} */}
+                          </div>
+                        </div>
+                        <br />
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() => toggleWishlist(prod)}
+                        >
+                          {wishlistProducts.some((p) => p._id === prod._id)
+                            ? "Remove From Wishlist"
+                            : "Move To Wishlist"}
+                        </button>
+                        <br />
+                        <button
+                          type="button"
+                          className="btn btn-primary"
+                          onClick={() => removeFromCart(prod)}
+                        >
+                          Remove From Cart
+                        </button>
                       </div>
-                      <br />
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => toggleWishlist(prod)}
-                      >
-                        {wishlistProducts.some(p => p._id === prod._id) ? "Remove From Wishlist"
-                          : "Move To Wishlist"}
-                      </button>
-                      <br />
-                      <button
-                        type="button"
-                        className="btn btn-primary"
-                        onClick={() => removeFromCart(prod)}
-                      >
-                        Remove From Cart
-                      </button>
                     </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div className="col-md-6">
-              <div className="card p-3 ">
-                <div className="card-title p-3">
-                  <h3>
-                    <strong>Cart Details</strong>
-                  </h3>
+                  ))}
                 </div>
-                <hr />
-
-                <p>
-                  <strong>Price ({cartItems}): </strong> USD :{" "}
-                  {price.toFixed(2)}
-                </p>
-                <p>
-                  <strong>Discount Applied : </strong> USD :{" "}
-                  {discount.toFixed(2)}
-                </p>
-                <hr />
-                <p>
-                  <strong>Total Cart Value : </strong> USD : {total.toFixed(2)}
-                </p>
               </div>
-              <Link className="btn btn-danger form-control mt-3" to="/checkout">
-                Proceed to Checkout ({cartItems} items)
-              </Link>
+              <div className="col-md-6">
+                <div className="card p-3 ">
+                  <div className="card-title p-3">
+                    <h3>
+                      <strong>Cart Details</strong>
+                    </h3>
+                  </div>
+                  <hr />
+
+                  <p>
+                    <strong>Price ({cartItems}): </strong> USD :{" "}
+                    {price.toFixed(2)}
+                  </p>
+                  <p>
+                    <strong>Discount Applied : </strong> USD :{" "}
+                    {discount.toFixed(2)}
+                  </p>
+                  <hr />
+                  <p>
+                    <strong>Total Cart Value : </strong> USD :{" "}
+                    {total.toFixed(2)}
+                  </p>
+                </div>
+                <Link
+                  className="btn btn-danger form-control mt-3"
+                  to="/checkout"
+                >
+                  Proceed to Checkout ({cartItems} items)
+                </Link>
+              </div>
             </div>
           </div>
-          
-        </div>
-      )}
-      <Footer/>
-    </div>
+        )}
+       
+      </div>
+       <Footer />
     </div>
   );
 };

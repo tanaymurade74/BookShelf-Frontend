@@ -8,7 +8,10 @@ const HomePage = () => {
       <div className="col-6 col-md-4 d-flex align-items-stretch col-lg-2 text-center mt-2">
         <Link to={link}>
           <div className="card d-block h-100">
-            <div className="card-img d-block h-100 " style = {{overflow: "hidden"}}>
+            <div
+              className="card-img d-block h-100 "
+              style={{ overflow: "hidden" }}
+            >
               <img
                 className="img-fluid "
                 style={{
@@ -19,7 +22,7 @@ const HomePage = () => {
                   transform: "transform 0.3s ease",
                 }}
                 onMouseEnter={(e) => (e.target.style.transform = "scale(1.2)")}
-                 onMouseMove={(e) => (e.target.style.transform = "scale(1.2)")}
+                onMouseMove={(e) => (e.target.style.transform = "scale(1.2)")}
                 onMouseOut={(e) => (e.target.style.transform = "scale(1)")}
                 src={image}
               />
@@ -43,61 +46,60 @@ const HomePage = () => {
   };
 
   return (
-   <div className="d-flex flex-column min-vh-100" >
+    <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
- <div className="container mt-4 flex-grow-1">
-      <div className="bg-light py-5 mb-5 text-center">
-        <div className="container">
-          <h1 className="display-4 fw-bold">Discover Your Next Read</h1>
-          <p className="lead text-muted mb-4">
-            Explore curated collection of books across genres.
-          </p>
-          <Link
-            to="/products/category/Fiction"
-            className="btn btn-dark btn-lg px-5 rounded-pill"
-          >
-            Explore Collections
-          </Link>
+      <div className="container mt-4 flex-grow-1">
+        <div className="bg-light py-5 mb-5 text-center">
+          <div className="container">
+            <h1 className="display-4 fw-bold">Discover Your Next Read</h1>
+            <p className="lead text-muted mb-4">
+              Explore curated collection of books across genres.
+            </p>
+            <Link
+              to="/products/category/Fiction"
+              className="btn btn-dark btn-lg px-5 rounded-pill"
+            >
+              Explore Collections
+            </Link>
+          </div>
         </div>
-      </div>
 
-      <div>
-        <div className="row mt-4">
-          <CategoryCard
-            title="Poetry"
-            image="https://covers.libro.fm/9780063429536_1120.jpg"
-            link="/products/category/poetry"
-          />
-          <CategoryCard
-            title="Fiction"
-            image="https://m.media-amazon.com/images/I/612KmKeEYEL._AC_UF1000,1000_QL80_.jpg"
-            link="/products/category/fiction"
-          />
-          <CategoryCard
-            title="Non-fiction"
-            image="https://m.media-amazon.com/images/I/71m+kC4vOxL._UF1000,1000_QL80_.jpg"
-            link="/products/category/non-fiction"
-          />
-          <CategoryCard
-            title="Art & Music"
-            image="https://c.files.bbci.co.uk/1260/production/_108240740_beatles-abbeyroad-index-reuters-applecorps.jpg"
-            link="/products/category/art & music"
-          />
-          <CategoryCard
-            title="History"
-            image="https://m.media-amazon.com/images/I/71vkxIftlzL._AC_UF1000,1000_QL80_.jpg"
-            link="/products/category/history"
-          />
-          <CategoryCard
-            title="Classic"
-            image="https://m.media-amazon.com/images/I/91U1UDM3cnL._UF1000,1000_QL80_.jpg"
-            link="/products/category/classic"
-          />
+        <div>
+          <div className="row mt-4">
+            <CategoryCard
+              title="Poetry"
+              image="https://covers.libro.fm/9780063429536_1120.jpg"
+              link="/products/category/poetry"
+            />
+            <CategoryCard
+              title="Fiction"
+              image="https://m.media-amazon.com/images/I/612KmKeEYEL._AC_UF1000,1000_QL80_.jpg"
+              link="/products/category/fiction"
+            />
+            <CategoryCard
+              title="Non-fiction"
+              image="https://m.media-amazon.com/images/I/71m+kC4vOxL._UF1000,1000_QL80_.jpg"
+              link="/products/category/non-fiction"
+            />
+            <CategoryCard
+              title="Art & Music"
+              image="https://c.files.bbci.co.uk/1260/production/_108240740_beatles-abbeyroad-index-reuters-applecorps.jpg"
+              link="/products/category/art & music"
+            />
+            <CategoryCard
+              title="History"
+              image="https://m.media-amazon.com/images/I/71vkxIftlzL._AC_UF1000,1000_QL80_.jpg"
+              link="/products/category/history"
+            />
+            <CategoryCard
+              title="Classic"
+              image="https://m.media-amazon.com/images/I/91U1UDM3cnL._UF1000,1000_QL80_.jpg"
+              link="/products/category/classic"
+            />
+          </div>
         </div>
       </div>
-     
-    </div>
-     <Footer/>
+      <Footer />
     </div>
   );
 };
