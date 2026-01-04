@@ -13,9 +13,9 @@ const ProductDetail = () => {
 
   
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
-      <div className="container bg-body-secondary p-4">
+      <div className="container bg-body-secondary p-4 flex-grow-1">
         {loading && (
               <div className="d-flex justify-content-center align-items-center" style={{ minHeight: "400px" }}>
                 <div className="text-center">
@@ -141,7 +141,7 @@ const ProductDetail = () => {
         </div>
       </div>
       <Footer/>
-    </>
+    </div>
   );
 };
 

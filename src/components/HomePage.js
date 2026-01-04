@@ -43,9 +43,9 @@ const HomePage = () => {
   };
 
   return (
-   <div>
+   <div className="d-flex flex-column min-vh-100" >
       <HeaderWithoutSearch />
- <div className="container mt-4">
+ <div className="container mt-4 flex-grow-1">
       <div className="bg-light py-5 mb-5 text-center">
         <div className="container">
           <h1 className="display-4 fw-bold">Discover Your Next Read</h1>

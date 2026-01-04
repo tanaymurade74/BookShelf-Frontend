@@ -15,6 +15,7 @@ export function CheckoutContextProvider({children}){
   const [orderPlaced, setOrderPlaced] = useState(false);
     
   const {cartProducts, price, discount, total} = useCartWishlistContext();
+  const {removeFromCart, handleCartDeletion} = useCartWishlistContext();
 
   const navigate = useNavigate();
 
@@ -62,6 +63,7 @@ export function CheckoutContextProvider({children}){
       alert("Select address for delivery");
       return;
     }
+  
     console.log(selectAddress);
     setOrderPlaced(true);
     const items = cartProducts.map((prod) => {
@@ -94,6 +96,8 @@ export function CheckoutContextProvider({children}){
       });
 
       const data = await response.json();
+
+       await handleCartDeletion();
 
       setTimeout(() => {
         navigate("/user");

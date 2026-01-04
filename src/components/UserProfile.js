@@ -11,9 +11,9 @@ const UserProfile = () => {
   const { handleDelete } = useCheckoutContext();
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
-      <div className="container p-3">
+      <div className="container p-3 flex-grow-1">
         <div className="text-center ">
           <p>
             <img
@@ -180,7 +180,7 @@ const UserProfile = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

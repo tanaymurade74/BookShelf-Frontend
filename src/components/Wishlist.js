@@ -11,8 +11,10 @@ const Wishlist = () => {
   const isInCart = (id) => cartProducts.some((p) => p._id === id);
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
+      
       <HeaderWithoutSearch />
+      <div className="flex-grow-1">
       {wishlistItems == 0 ? (
         <div className="container p-3 text-center">
           <img
@@ -101,7 +103,8 @@ const Wishlist = () => {
         </div>
       )}
       <Footer/>
-    </>
+    </div>
+    </div>
   );
 };
 

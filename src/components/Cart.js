@@ -14,8 +14,10 @@ const Cart = () => {
 
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
+      <div className="flex-grow-1">
+
       {cartItems == 0 ? (
         <div className="container p-3 text-center">
           <img src="https://cdn-icons-png.flaticon.com/512/11329/11329060.png" />
@@ -133,7 +135,8 @@ const Cart = () => {
         </div>
       )}
       <Footer/>
-    </>
+    </div>
+    </div>
   );
 };
 

@@ -5,12 +5,9 @@ import useCartWishlistContext from "../context/CartWishlistContext";
 import useCheckoutContext from "../context/CheckoutContext";
 const CheckoutPage = () => {
   const {
-    selectAddress,
     setSelectAddress,
     orderPlaced,
-    setOrderPlaced,
     allAddress,
-    setAllAddress,
     handleDelete,
     handleOrder,
   } = useCheckoutContext();
@@ -31,9 +28,9 @@ const CheckoutPage = () => {
   }
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
       <HeaderWithoutSearch />
-      <div className="container p-3">
+      <div className="container p-3 flex-grow-1">
         {loading && (
           <div
             className="d-flex justify-content-center align-items-center"
@@ -134,7 +131,7 @@ const CheckoutPage = () => {
                   className="col-12 col-md-6 d-flex"
                   key={prod._id}
                 >
-                  <div className="card p-2">
+                  <div className="card p-2 mt-2">
                       <Link
                         to={`/product/${prod._id}`}
                         className="d-block h-100"
@@ -214,7 +211,7 @@ const CheckoutPage = () => {
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 };
 

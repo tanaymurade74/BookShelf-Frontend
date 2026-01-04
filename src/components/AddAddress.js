@@ -7,9 +7,9 @@ const AddAddress = () => {
     const {addressToUpdate, setBlock, setCity, setPincode, setState
         , setStreet, handleSubmit, block, city, street, pincode, state} = useAddressContext();
   
-    return <>
+    return <div className = "d-flex flex-column min-vh-100">
     <HeaderWithoutSearch/>
-    <div className="container p-3">
+    <div className="container p-3 flex-grow-1">
         <h2>Address Form</h2>
         <form onSubmit = {handleSubmit} className="form-control">
             <label>Block: </label><br/>
@@ -29,7 +29,7 @@ const AddAddress = () => {
         
     </div>
     <Footer/>
-    </>
+    </div>
 }
 
 export default AddAddress;

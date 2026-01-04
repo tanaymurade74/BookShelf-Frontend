@@ -73,9 +73,11 @@ function App() {
               } />
             <Route path="/user" element={
               <CheckoutContextProvider>
+                <CartWishlistProvider>
               <UserProfileProvider>
               <UserProfile />
               </UserProfileProvider>
+              </CartWishlistProvider>
               </CheckoutContextProvider>
               } />
           </Routes>

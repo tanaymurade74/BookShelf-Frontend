@@ -198,10 +198,38 @@ export function CartWishlistProvider({children}){
         
   }
 
+  const handleCartDeletion = async () => {
+
+      const itemsToRemove = [...cartProducts];
+
+      setCartProducts([]);
+      setCartItems(0);
+      setPrice(0);
+      setTotal(0);
+      setDiscount(0);
+
+     for(const item of itemsToRemove){
+        try {
+          const response = await fetch(`${process.env.REACT_APP_API_URL}/api/products/${item.name}`, 
+             {
+              method: "POST",
+              headers: {
+                "Content-Type" : "application/json"
+              },
+              body: JSON.stringify({inCart: false, cartQuantity: 0})
+             }
+          )
+        }catch(error){
+          console.log(`Failed to delete ${item.name} from cart`)
+        }
+     }
+     toast.info("Cart Cleared")
+  }
+
   return (
     <CartWishlistContext.Provider value ={{cartItems, setCartItems, wishlistItems, setWishlistItems, cartProducts, setCartProducts
         , wishlistProducts, setWishlistProducts, loading, error, price, setPrice, discount, setDiscount, total, setTotal
-        , alertMessage, setAlertMessage, addToCart, removeFromCart, toggleWishlist, increment, decrement
+        , alertMessage, setAlertMessage, addToCart, removeFromCart, toggleWishlist, increment, decrement, handleCartDeletion
     }}>
         {children}
     </CartWishlistContext.Provider>

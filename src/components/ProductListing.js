@@ -14,9 +14,9 @@ const ProductListing = () => {
 
 
   return (
-    <>
+    <div className="d-flex flex-column min-vh-100">
     <Header search={search} setSearch={setSearch} />
-    <div>
+    <div className="flex-grow-1">
       
       <div className="container p-4 bg-body-secondary">
 
@@ -259,7 +259,7 @@ const ProductListing = () => {
       </div>
     </div>
     <Footer/>
-    </>
+    </div>
   );
 };
 
