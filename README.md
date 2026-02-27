@@ -79,17 +79,6 @@ Request body example:
 Sample Response:
 { success: true, product: { _id, name, inCart, inWishlist, cartQuantity, ... } }
 
-GET /api/user/orders
-- Get orders for authenticated user
-Sample Response:
-[{ _id, items, totals, deliveryAddress, createdAt }, ...]
-
-POST /api/user/orders
-- Create a new order (protected)
-Request body example:
-{ items: [...], deliveryAddress: {...}, totals: {...} }
-Sample Response:
-{ _id, items, totals, status, createdAt }
 
 Environment
 
