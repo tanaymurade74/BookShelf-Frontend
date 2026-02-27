@@ -1,70 +1,101 @@
-# Getting Started with Create React App
+BookShelf
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+A full‑stack bookstore app to browse, search, add to cart/wishlist, and place orders.
+Built with a React frontend, Express/Node backend, MongoDB database.
 
-## Available Scripts
+Quick Start
 
-In the project directory, you can run:
+git clone https://github.com/<your-username>/<your-repo>.git
+cd MajorProject
+# Backend
+cd backend
+npm install
+npm run dev
+# Frontend (new terminal)
+cd ../frontend
+npm install
+npm start
 
-### `npm start`
+Technologies
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+React JS
+React Router
+Node.js
+Express
+MongoDB (Mongoose)
+Fetch API / simple custom hooks
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+Features
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Home
+- Displays a list of latest / featured books
+- Quick links to categories and top deals
 
-### `npm run build`
+Product Listing
+- Category based listing (route: /products or /products/:categoryName)
+- Search by title/term (updates URL ?search=term)
+- Client-side filters: rating, discount, price sort
+- Add to Cart / Add to Wishlist from listing
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Product Details
+- View full product information (description, rating, price, images)
+- Add to Cart / Add to Wishlist from detail page
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Cart & Checkout
+- View cart items, update quantities, remove items
+- Checkout flow posts order to backend (/api/user/orders)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+Wishlist
+- View and manage wishlist items
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+API Reference
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+GET /api/products
+- List all products or default listing
+Sample Response:
+[{ _id, name, price, rating, imageUrl, discountPercentage, ... }, …]
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+GET /api/products/category/:categoryName
+- Products for a specific category
+Sample Response:
+{ products: [ { _id, name, ... }, ... ] }
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+GET /api/product/search/:searchTerm
+- Search products by term
+Sample Response:
+{ products: [ { _id, name, ... }, ... ] }
 
-## Learn More
+GET /api/products/:productId
+- Get product detail
+Sample Response:
+{ _id, name, description, price, rating, imageUrl, discountPercentage, ... }
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+POST /api/products/:productName
+- Toggle/update product flags (used for inCart / inWishlist updates)
+Request body example:
+{ inCart: true, cartQuantity: 1 }
+Sample Response:
+{ success: true, product: { _id, name, inCart, inWishlist, cartQuantity, ... } }
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+GET /api/user/orders
+- Get orders for authenticated user
+Sample Response:
+[{ _id, items, totals, deliveryAddress, createdAt }, ...]
 
-### Code Splitting
+POST /api/user/orders
+- Create a new order (protected)
+Request body example:
+{ items: [...], deliveryAddress: {...}, totals: {...} }
+Sample Response:
+{ _id, items, totals, status, createdAt }
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+Environment
 
-### Analyzing the Bundle Size
+Frontend (.env)
+REACT_APP_API_URL=https://book-shelf-backend-i1xg.vercel.app
+Backend (.env)
+MONGODB=<your-mongodb-connection-string>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
