@@ -1,7 +1,3 @@
-import { useParams } from "react-router-dom";
-import useFetch from "../useFetch";
-import { useState } from "react";
-import { useEffect } from "react";
 import HeaderWithoutSearch from "../constants/HeaderWithoutSearch";
 import useProductDetailContext from "../context/ProductDetailContext";
 import Footer from "../constants/Footer";
