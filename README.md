@@ -1,90 +1,93 @@
-BookShelf
+# BookShelf – Frontend
 
-A full‑stack bookstore app to browse, search, add to cart/wishlist, and place orders.
-Built with a React frontend, Express/Node backend, MongoDB database.
+An online bookstore where you can browse books by category, search the catalog, view details, manage a cart and wishlist, and check out with a saved delivery address. Built with React, React Router, and Bootstrap, backed by a REST API.
 
-Quick Start
+## Live Demo
 
-git clone https://github.com/<your-username>/<your-repo>.git
-cd MajorProject
-# Backend
-cd backend
+[Live Demo](https://book-shelf-frontend-ym5b.vercel.app/)
+
+## Quick Start
+
+```bash
+git clone https://github.com/tanaymurade74/BookShelf-Frontend.git
+cd BookShelf-Frontend
 npm install
-npm run dev
-# Frontend (new terminal)
-cd ../frontend
-npm install
+```
+
+Create a `.env` file in the project root, pointing at the backend:
+
+```env
+REACT_APP_API_URL=http://localhost:3001
+```
+
+> Replace with your deployed [backend](https://github.com/tanaymurade74/BookShelf-Backend) URL in production (e.g. `https://book-shelf-backend-i1xg.vercel.app`).
+
+Then start the app:
+
+```bash
 npm start
+```
 
-Technologies
+## Technologies
 
-React JS
-React Router
-Node.js
-Express
-MongoDB (Mongoose)
-Fetch API / simple custom hooks
+* React JS
+* React Router
+* Bootstrap
+* React Toastify
+* Create React App
 
+## Features
 
-Features
+**Home**
 
-Home
-- Displays a list of latest / featured books
-- Quick links to categories and top deals
+* Landing page with featured books and category navigation
 
-Product Listing
-- Category based listing (route: /products or /products/:categoryName)
-- Search by title/term (updates URL ?search=term)
-- Client-side filters: rating, discount, price sort
-- Add to Cart / Add to Wishlist from listing
+**Product Listing**
 
-Product Details
-- View full product information (description, rating, price, images)
-- Add to Cart / Add to Wishlist from detail page
+* Browse products by category
+* Search the catalog by title
+* Filter and sort the listing
 
-Cart & Checkout
-- View cart items, update quantities, remove items
-- Checkout flow posts order to backend (/api/user/orders)
+**Product Details**
 
-Wishlist
-- View and manage wishlist items
+* View full book details, price, rating, and description
+* Add to cart or wishlist from the details page
 
+**Cart & Wishlist**
 
-API Reference
+* Add and remove items, adjust quantities
+* Move items between cart and wishlist
 
-GET /api/products
-- List all products or default listing
-Sample Response:
-[{ _id, name, price, rating, imageUrl, discountPercentage, ... }, …]
+**Checkout**
 
-GET /api/products/category/:categoryName
-- Products for a specific category
-Sample Response:
-{ products: [ { _id, name, ... }, ... ] }
+* Select or add a delivery address
+* Place an order and see an order confirmation
 
-GET /api/product/search/:searchTerm
-- Search products by term
-Sample Response:
-{ products: [ { _id, name, ... }, ... ] }
+**User Profile**
 
-GET /api/products/:productId
-- Get product detail
-Sample Response:
-{ _id, name, description, price, rating, imageUrl, discountPercentage, ... }
+* Manage saved addresses and view past orders
 
-POST /api/products/:productName
-- Toggle/update product flags (used for inCart / inWishlist updates)
-Request body example:
-{ inCart: true, cartQuantity: 1 }
-Sample Response:
-{ success: true, product: { _id, name, inCart, inWishlist, cartQuantity, ... } }
+**General**
 
+* Toast notifications for real-time feedback on actions
 
-Environment
+## API Reference
 
-Frontend (.env)
-REACT_APP_API_URL=https://book-shelf-backend-i1xg.vercel.app
-Backend (.env)
-MONGODB=<your-mongodb-connection-string>
+This app consumes the BookShelf backend REST API. The base URL is read from `REACT_APP_API_URL`, and all endpoints are prefixed with `/api`.
 
+### GET /api/products · GET /api/products/category/:categoryName · GET /api/product/search/:searchTerm
+Fetch the catalog, filter by category, or search by title.
 
+### GET /api/products/:productId
+Fetch a single product's details.
+
+### POST /api/products/:productName
+Update a product to add/remove it from the cart or wishlist, or change quantity.
+
+### GET /api/products/cart/true · GET /api/products/wishlist/true
+Fetch the current cart and wishlist contents.
+
+### GET /api/user/address · POST /api/user/address · POST /api/user/orders
+Manage delivery addresses and place orders at checkout.
+
+> Full endpoint list: see the [backend repository](https://github.com/tanaymurade74/BookShelf-Backend).
